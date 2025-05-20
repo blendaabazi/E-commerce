@@ -123,3 +123,10 @@
     @apply transition-all ease-in-out duration-300 cursor-pointer hover:font-bold hover:text-black;
   }
 }
+
+:root {
+  --font-raleway: "Raleway", sans-serif;
+}
+body{
+  font-family:var(--font-raleway);
+}

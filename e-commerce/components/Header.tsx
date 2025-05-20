@@ -6,25 +6,30 @@ import Logo from "./Logo";
 import Container from "./Container";
 import CartIcon from "./CartIcon";
 import SearchBar from "./SearchBar";
-import { useUser } from "@clerk/nextjs";  // hook client-side për user
+import { useUser } from "@clerk/nextjs";
 import { SignInButton, ClerkLoaded } from "@clerk/nextjs";
 import { SignedIn, UserButton } from "@clerk/clerk-react";
 import { ListOrdered } from "lucide-react";
 import Link from "next/link";
+import MobileMenu from "./MobileMenu"; // Importo MobileMenu
 
 const Header = () => {
   const { user, isLoaded } = useUser();
 
-  // Sapo ngarkohen të dhënat e user-it, trego përmbajtjen
   if (!isLoaded) return null;
 
   return (
     <header className="border-b border-b-gray-400">
       <Container className="flex items-center justify-between gap-7 py-6">
-        <HeaderMenu />
+        <div className="flex items-center gap-4">
+          <MobileMenu /> {/* Këtu vendoset ikona e hamburger menu */}
+          <HeaderMenu />
+        </div>
+
         <div className="w-auto md:w-1/3 flex items-center justify-center gap-2.5">
           <Logo>Shop</Logo>
         </div>
+
         <div className="w-auto md:w-1/3 flex items-center justify-end gap-5">
           <SearchBar />
           <CartIcon />
