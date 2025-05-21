@@ -1,12 +1,14 @@
 import Container from "@/components/Container";
 import HomeBanner from "@/components/HomeBanner";
 import { Button } from "@/components/ui/button";
+import ProductGrid from "@/components/ui/ProductGrid";
 
 export default function Home() {
   return (
     <div>
-      <Container>
+      <Container className="py-10">
       <HomeBanner/>
+      <ProductGrid/>
       </Container>
     </div>
   );
