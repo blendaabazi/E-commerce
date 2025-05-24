@@ -69,6 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
         <div className="mt-6">
           <SocialMedia />
+          
         </div>
       </motion.div>
     </div>

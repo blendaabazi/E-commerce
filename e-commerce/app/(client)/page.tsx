@@ -1,7 +1,7 @@
 import Container from "@/components/Container";
 import HomeBanner from "@/components/HomeBanner";
 import { Button } from "@/components/ui/button";
-import ProductGrid from "@/components/ui/ProductGrid";
+import ProductGrid from "@/components/ProductGrid";
 
 export default function Home() {
   return (
