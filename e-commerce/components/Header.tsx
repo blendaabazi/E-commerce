@@ -27,7 +27,7 @@ const Header = () => {
         </div>
 
         <div className="w-auto md:w-1/3 flex items-center justify-center gap-2.5">
-          <Logo>Shop</Logo>
+          <Logo>NOVA</Logo>
         </div>
 
         <div className="w-auto md:w-1/3 flex items-center justify-end gap-5">
