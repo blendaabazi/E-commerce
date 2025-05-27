@@ -19,7 +19,7 @@ const Header = () => {
   if (!isLoaded) return null;
 
   return (
-    <header className="border-b border-b-gray-400">
+    <header className="border-b border-b-gray-400 py-5 sticky top-0 z-50 bg-white">
       <Container className="flex items-center justify-between gap-7 py-6">
         <div className="flex items-center gap-4">
           <MobileMenu /> {/* Këtu vendoset ikona e hamburger menu */}
