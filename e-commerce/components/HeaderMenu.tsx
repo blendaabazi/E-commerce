@@ -49,6 +49,12 @@ const HeaderMenu = ({ categories }: { categories: CATEGORIES_QUERYResult }) => {
           >
             Dashboard
           </Link>
+           <Link
+            href="/admin"
+            className="hover:text-darkColor hoverEffect relative group"
+          >
+            AdminPanel
+          </Link>
       <Link
         href={"/shop"}
         className={`hover:text-darkColor hoverEffect relative group ${pathname === "/" && "text-darkColor"}`}

@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import ProfilePage from '../profile/page'; // ose '../../app/profile/page'
 
-function dashboard() {
+export default function Dashboard() {
   return (
-    <div>page</div>
-  )
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <ProfilePage />
+    </div>
+  );
 }
-
-export default dashboard
