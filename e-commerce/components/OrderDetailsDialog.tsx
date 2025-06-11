@@ -52,7 +52,7 @@ const OrderDetailsDialog: FC<Props> = ({ order, isOpen, onClose }) => {
           <p>
             <strong>Invoice Number:</strong> {order?.invoice?.number}
           </p>
-          {/* {order?.invoice && (
+           {order?.invoice && (
             <Button variant="outline" className="mt-2">
               {order?.invoice?.hosted_invoice_url && (
                 <Link href={order?.invoice?.hosted_invoice_url} target="blank">
@@ -60,7 +60,7 @@ const OrderDetailsDialog: FC<Props> = ({ order, isOpen, onClose }) => {
                 </Link>
               )}
             </Button>
-          )} */}
+          )} 
         </div>
         <Table>
           <TableHeader>
