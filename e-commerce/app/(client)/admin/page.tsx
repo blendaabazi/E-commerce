@@ -1,86 +1,96 @@
-// import { currentUser } from "@clerk/nextjs/server";
-// import { redirect } from "next/navigation";
-// import NotAuthorized from "../not-authorized";
+"use client";
 
-// async function getUsers() {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
-//   next: { revalidate: 60 },
-// });
-
-
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch users");
-//   }
-
-//   return res.json();
-// }
-
-// const AdminPage = async () => {
-//   const user = await currentUser();
-
-//   if (!user) {
-//     redirect("/sign-in");
-//   }
-
-//   const role = user.publicMetadata?.role;
-//   if (role !== "admin") return <NotAuthorized />;
-
-//   const users = await getUsers();
-
-//   return (
-//     <div className="max-w-4xl mx-auto p-6">
-//       <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
-//       <h2 className="text-xl font-semibold mb-2">Lista e Përdoruesve</h2>
-//       <ul className="space-y-2">
-//       {users.data.map((u: any) => (
-
-//           <li key={u.id} className="p-4 border rounded shadow-sm">
-//             <p><strong>ID:</strong> {u.id}</p>
-//             <p><strong>Email:</strong> {u.emailAddresses[0]?.emailAddress}</p>
-//             <p><strong>Emri:</strong> {u.firstName} {u.lastName}</p>
-//             <p><strong>Roli:</strong> {u.publicMetadata?.role ?? "user"}</p>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default AdminPage;
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import NotAuthorized from "../not-authorized";
 import UserListClient from "./UserListClient";
+import ProductListClient from "./products/ProductListClient";
 
-async function getUsers() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
-    next: { revalidate: 60 },
-  });
+export default function AdminProductsPage() {
+  const { user, isLoaded } = useUser(); // merr user-in aktual nga Clerk
+  const [view, setView] = useState("products");
+  const [products, setProducts] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [loadingData, setLoadingData] = useState(true);
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch users");
-  }
+  // Kontrolli i aksesit dhe marrja e të dhënave
+  useEffect(() => {
+    if (!isLoaded) return; // presim që user të ngarkohet
 
-  return res.json();
-}
+    if (!user) {
+      window.location.href = "/sign-in"; // redirect nëse nuk ka user
+      return;
+    }
 
-const AdminPage = async () => {
-  const user = await currentUser();
+    const role = user.publicMetadata?.role;
+    if (role !== "admin") {
+      setLoadingData(false);
+      return;
+    }
 
-  if (!user) redirect("/sign-in");
+    async function fetchData() {
+      try {
+        const [prodRes, usersRes] = await Promise.all([
+          fetch("/api/products"),
+          fetch("/api/users"),
+        ]);
 
-  const role = user.publicMetadata?.role;
-  if (role !== "admin") return <NotAuthorized />;
+        const prodData = await prodRes.json();
+        const usersData = await usersRes.json();
 
-  const users = await getUsers();
+        setProducts(prodData.data);
+        setUsers(usersData.data);
+      } catch (e) {
+        console.error("Gabim gjatë marrjes së të dhënave", e);
+      }
+      setLoadingData(false);
+    }
+
+    fetchData();
+  }, [isLoaded, user]);
+
+  if (!isLoaded) return <div>Loading user...</div>;
+
+  if (!user) return null; // ose loading
+
+  if (user.publicMetadata?.role !== "admin") return <NotAuthorized />;
+
+  if (loadingData) return <div>Loading data...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
-      <h2 className="text-xl font-semibold mb-2">Lista e Përdoruesve</h2>
-      <UserListClient initialUsers={users.data} />
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Menaxhimi i Produkteve dhe Përdoruesve</h1>
+        <div>
+          <button
+            className={`px-4 py-2 rounded mr-2 ${
+              view === "users" ? "bg-blue-600 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setView("users")}
+          >
+            Users
+          </button>
+          <button
+            className={`px-4 py-2 rounded ${
+              view === "products" ? "bg-blue-600 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setView("products")}
+          >
+            Products
+          </button>
+        </div>
+        {view === "products" && (
+          <Link href="/admin/products/create">
+            <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+              + Shto Produkt
+            </button>
+          </Link>
+        )}
+      </div>
+
+      {view === "users" && users && <UserListClient initialUsers={users} />}
+      {view === "products" && products && <ProductListClient initialProducts={products} />}
     </div>
   );
-};
-
-export default AdminPage;
+}
