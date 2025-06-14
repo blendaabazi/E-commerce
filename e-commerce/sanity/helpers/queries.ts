@@ -2,7 +2,29 @@
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "../lib/live";
 
-export const getProductBySlug = async (slug: string) => {
+// export const getProductBySlug = async (slug: string) => {
+//   const PRODUCT_BY_SLUG_QUERY = defineQuery(
+//     `*[_type == "product" && slug.current == $slug] | order(name asc) [0]`
+//   );
+
+//   try {
+//     const product = await sanityFetch({
+//       query: PRODUCT_BY_SLUG_QUERY,
+//       params: {
+//         slug,
+//       },
+//     });
+//     return product?.data || null;
+//   } catch (error) {
+//     console.error("Error fetching product by ID:", error);
+//     return null;
+//   }
+// };
+
+export const getProductBySlug = async (
+  slug: string,
+  fetchOptions?: RequestInit
+) => {
   const PRODUCT_BY_SLUG_QUERY = defineQuery(
     `*[_type == "product" && slug.current == $slug] | order(name asc) [0]`
   );
@@ -13,11 +35,24 @@ export const getProductBySlug = async (slug: string) => {
       params: {
         slug,
       },
+       // shto opsionet për ISR
     });
     return product?.data || null;
   } catch (error) {
     console.error("Error fetching product by ID:", error);
     return null;
+  }
+};
+
+export const getAllProductSlugs = async (): Promise<string[]> => {
+  const SLUGS_QUERY = `*[_type == "product" && defined(slug.current)][].slug.current`;
+
+  try {
+    const slugs = await sanityFetch({ query: SLUGS_QUERY });
+    return slugs?.data || [];
+  } catch (error) {
+    console.error("Error fetching product slugs:", error);
+    return [];
   }
 };
 
