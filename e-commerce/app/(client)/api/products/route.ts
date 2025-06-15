@@ -293,3 +293,24 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'Gabim gjatë fshirjes së produktit' }, { status: 500 });
   }
 }
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
+
+  if (!id) {
+    return NextResponse.json({ error: 'Mungon ID' }, { status: 400 });
+  }
+
+  try {
+    const updatedData = await request.json();
+
+    const updatedProduct = await client
+      .patch(id)
+      .set(updatedData)
+      .commit();
+
+    return NextResponse.json({ message: 'Produkt përditësuar me sukses', product: updatedProduct });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Gabim gjatë përditësimit' }, { status: 500 });
+  }
+}
