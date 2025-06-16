@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 export interface Contact {
-  id: string;
+  _id: string;       // ndryshimi këtu: id -> _id
   name: string;
   email: string;
   message: string;
@@ -45,7 +45,7 @@ export default function ContactListClient() {
   return (
     <ul className="space-y-4">
       {contacts.map((contact) => (
-        <li key={contact.id} className="p-4 border rounded shadow">
+        <li key={contact._id} className="p-4 border rounded shadow">
           <p><strong>Emri:</strong> {contact.name}</p>
           <p><strong>Email:</strong> {contact.email}</p>
           <p><strong>Mesazhi:</strong> {contact.message}</p>

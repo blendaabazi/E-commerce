@@ -92,3 +92,25 @@ export const getMyOrders = async (userId: string) => {
     return [];
   }
 };
+export const getAllProducts = async () => {
+  const PRODUCTS_QUERY = defineQuery(`
+    *[_type == "product"]{
+      _id,
+      name,
+      price,
+      slug {
+        current
+      }
+    } | order(name asc)
+  `);
+
+  try {
+    const products = await sanityFetch({
+      query: PRODUCTS_QUERY,
+    });
+    return products?.data || [];
+  } catch (error) {
+    console.error("Error fetching all products:", error);
+    return [];
+  }
+};
