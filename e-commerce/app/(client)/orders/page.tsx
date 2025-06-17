@@ -59,7 +59,7 @@ const OrdersPage = async () => {
             to see your orders here!
           </p>
           <Button asChild className="mt-6">
-            <Link href={"/"}>Browse Products</Link>
+            <Link href={"/"} style={{color:"black"}}>Browse Products</Link>
           </Button>
         </div>
       )}

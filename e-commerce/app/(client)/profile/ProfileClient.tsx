@@ -301,7 +301,7 @@ export default function ProfileClient({ user }: Props) {
         <button
           onClick={updateProfile}
           disabled={loading}
-          className="rounded bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
         >
           {loading ? "Saving..." : "Save Profile"}
         </button>

@@ -55,50 +55,70 @@ export default function AdminProductsPage() {
   if (user.publicMetadata?.role !== "admin") return <NotAuthorized />;
   if (loadingData) return <div>Loading data...</div>;
 
+  // Sidebar menu items
+  const menuItems = [
+    { key: "products", label: "Products" },
+    { key: "users", label: "Users" },
+    { key: "contacts", label: "Contacts" },
+  ];
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Menaxhimi i Produkteve dhe Përdoruesve</h1>
-        <div>
-          <button
-            className={`px-4 py-2 rounded mr-2 ${
-              view === "users" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setView("users")}
-          >
-            Users
-          </button>
-          <button
-            className={`px-4 py-2 rounded mr-2 ${
-              view === "contacts" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setView("contacts")}
-          >
-            Contacts
-          </button>
-          <button
-            className={`px-4 py-2 rounded ${
-              view === "products" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setView("products")}
-          >
-            Products
-          </button>
-        </div>
-        {view === "products" && (
-          <Link href="/admin/products/create">
-            <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-              + Shto Produkt
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white p-6 shadow-md flex flex-col">
+        <h2 className="text-2xl font-bold text-gray-800 mb-8">Manage</h2>
+        <nav className="flex flex-col space-y-3">
+          {menuItems.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setView(key)}
+              className={`text-left px-4 py-3 rounded-lg font-medium transition-colors ${
+                view === key
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-700 hover:bg-blue-200 hover:text-blue-700"
+              }`}
+            >
+              {label}
             </button>
+          ))}
+        </nav>
+
+        {view === "products" && (
+          <Link
+            href="/admin/products/create"
+            className="mt-auto block w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition text-center"
+          >
+            + Shto Produkt
           </Link>
         )}
-      </div>
+      </aside>
 
-      {view === "users" && users && <UserListClient initialUsers={users} />}
-      {view === "contacts" && <ContactListClient />}
-      {view === "products" && products && (
-        <ProductListClient initialProducts={products} />
-      )}
+      {/* Main content */}
+      <main className="flex-1 p-8 overflow-auto">
+        <h1 className="text-3xl font-bold mb-6 capitalize">
+          {view}
+        </h1>
+
+        <div className="bg-white rounded-xl shadow p-6 min-h-[400px]">
+          {view === "users" && users && <UserListClient initialUsers={users} />}
+          {view === "contacts" && <ContactListClient />}
+         {view === "products" && products && (
+  <div>
+ <Link
+  href="/admin/products/create"
+  className="mt-2 block w-40 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition text-center mb-4"
+>
+  + Shto Produkt
+</Link>
+
+
+
+    <ProductListClient initialProducts={products} />
+  </div>
+)}
+
+        </div>
+      </main>
     </div>
   );
 }
