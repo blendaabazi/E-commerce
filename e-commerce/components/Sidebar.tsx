@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       >
         <div className="flex items-center justify-between mb-8">
           <button onClick={onClose} aria-label="Close sidebar" className="focus:outline-none focus:ring-2 focus:ring-red-500 rounded">
-            <Logo className="text-white font-bold text-2xl select-none cursor-pointer">Shop</Logo>
+            <Logo className="text-white font-bold text-2xl select-none cursor-pointer"></Logo>
           </button>
           <button
             onClick={onClose}

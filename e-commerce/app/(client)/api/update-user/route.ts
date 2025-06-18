@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       firstName,
       lastName,
       publicMetadata: {
-        role, // këtu vendos rolin që vjen nga client
+        role,
       },
     });
 
@@ -18,6 +18,9 @@ export async function POST(request: Request) {
     return NextResponse.json(updatedUser);
   } catch (error) {
     console.error("Failed to update user", error);
-    return new NextResponse("Error updating user", { status: 500 });
+    return NextResponse.json(
+      { error: "Error updating user" },
+      { status: 500 }
+    );
   }
 }
