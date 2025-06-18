@@ -40,8 +40,8 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 
   return (
     <div className="py-5 flex flex-col md:flex-row items-start gap-5">
-      <div className="flex flex-col md:min-w-40 border">
-        {categories?.map((item) => (
+      <div className="flex flex-col md:min-w-40 ">
+        {/* {categories?.map((item) => (
           <Button
             key={item?._id}
             onClick={() => setCurrentSlug(item?.slug?.current as string)}
@@ -49,7 +49,7 @@ const CategoryProducts = ({ categories, slug }: Props) => {
           >
             {item?.title}
           </Button>
-        ))}
+        ))} */}
       </div>
       <div className="w-full">
         {loading ? (

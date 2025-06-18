@@ -3,11 +3,14 @@ import { AlignLeft } from "lucide-react";
 import { useState } from "react";
 import React from "react";
 import Sidebar from "./Sidebar";
+import { Category } from "@/sanity.types";
 
-const MobileMenu = () => {
+interface MobileMenuProps {
+  categories: Category[];
+}
+
+const MobileMenu: React.FC<MobileMenuProps> = ({ categories }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  console.log("Sidebar Open?", isSidebarOpen);
 
   return (
     <>
@@ -20,6 +23,7 @@ const MobileMenu = () => {
         <Sidebar
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
+          categories={categories}
         />
       </div>
     </>
