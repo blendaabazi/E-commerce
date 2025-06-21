@@ -9,7 +9,7 @@ Përdoruesit mund të shfletojnë produktet, të krijojnë llogari, të shtojnë
 
 ## Demo Live
 
-🔗 [Linku i aplikacionit live në Vercel]....
+https://github.com/user-attachments/assets/f2c5828b-34a1-4643-b951-ce6aa8aa0712
 
 ---
 
